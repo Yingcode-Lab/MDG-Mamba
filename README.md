@@ -44,7 +44,7 @@ flowchart TD
     N --> O[Output Projection]
     O --> P[RevIN De-normalization]
     P --> Q[PV Forecast]
-
+```
 # Model Configuration
 
 The implementation is compatible with the configuration-based architecture commonly used in long-term time-series forecasting repositories.
