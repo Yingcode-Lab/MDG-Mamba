@@ -17,34 +17,52 @@ Photovoltaic power generation exhibits strong temporal variability caused by cha
 
 MDG-Mamba addresses these characteristics through a gradient-enhanced and macro–micro decoupled architecture.
 
-````markdown
-### The main processing pipeline is:
+## The main processing pipeline is:
 
-```mermaid
-flowchart TD
-    A[Input PV Time Series] --> B[RevIN Normalization]
-    B --> C[Variable Attention]
-    C --> D[Data Embedding]
-    D --> E[Gradient Refiner]
-    E --> F[Series Decomposition]
+```text
+Input PV Time Series
+          |
+          ▼
+RevIN Normalization
+          |
+          ▼
+Variable Attention
+          |
+          ▼
+Data Embedding
+          |
+          ▼
+Gradient Refiner
+          |
+          ▼
+Series Decomposition
+          |
+          ├───────────────────────┐
+          |                       |
+          ▼                       ▼
+  Fluctuation Branch        Trend Branch
+          |                       |
+          ▼                       ▼
+        Mamba             Trend Projection
+          |                       |
+          ▼                       ▼
+Dilated Inception Refiner  Trend Prediction
+          |                       |
+          ▼                       |
+Fluctuation Prediction ────────┐  |
+                               |  |
+                               ▼  ▼
+                            Branch Fusion
+                                  |
+                                  ▼
+                           Output Projection
+                                  |
+                                  ▼
+                         RevIN De-normalization
+                                  |
+                                  ▼
+                             PV Forecast
 
-    F --> G[Fluctuation Branch]
-    F --> H[Trend Branch]
-
-    G --> I[Mamba]
-    I --> J[Dilated Inception Refiner]
-    J --> K[Fluctuation Prediction]
-
-    H --> L[Trend Projection]
-    L --> M[Trend Prediction]
-
-    K --> N[Branch Fusion]
-    M --> N
-
-    N --> O[Output Projection]
-    O --> P[RevIN De-normalization]
-    P --> Q[PV Forecast]
-```
 # Model Configuration
 
 The implementation is compatible with the configuration-based architecture commonly used in long-term time-series forecasting repositories.
