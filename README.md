@@ -17,7 +17,8 @@ Photovoltaic power generation exhibits strong temporal variability caused by cha
 
 MDG-Mamba addresses these characteristics through a gradient-enhanced and macro–micro decoupled architecture.
 
-## The main processing pipeline is:
+````markdown
+### The main processing pipeline is:
 
 ```mermaid
 flowchart TD
