@@ -33,15 +33,10 @@ class DilatedInceptionRefiner(nn.Module):
             nn.Conv1d(d_model, d_model, kernel_size=3, padding=2, dilation=2),
             nn.GELU()
         )
-        # 分支3：扩张感受野 (通过 dilation=2 捕捉超长的时间窗口)
-        self.branch3 = nn.Sequential(
-            nn.Conv1d(d_model, d_model, kernel_size=3, padding=4, dilation=4),
-            nn.GELU()
-        )
+
 
         # 特征融合
         self.conv_final = nn.Conv1d(d_model * 2, d_model, kernel_size=1)
-        #self.conv_final = nn.Conv1d(d_model * 2, d_model, kernel_size=1)
         self.norm = nn.LayerNorm(d_model)
         self.dropout = nn.Dropout(dropout)
 
@@ -50,10 +45,9 @@ class DilatedInceptionRefiner(nn.Module):
         x_in = x.transpose(1, 2)
         b1 = self.branch1(x_in)
         b2 = self.branch2(x_in)
-        b3 = self.branch3(x_in)
+
         
         # 通道拼接后投影回 d_model
-        #out = torch.cat([b1, b2], dim=1)
         out = torch.cat([b1,b2], dim=1)
         out = self.conv_final(out).transpose(1, 2)
         
