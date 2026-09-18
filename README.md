@@ -19,47 +19,30 @@ MDG-Mamba addresses these characteristics through a gradient-enhanced and macro�
 
 ## The main processing pipeline is:
 
-Input PV Time Series
-        │
-        ▼
-RevIN Normalization
-        │
-        ▼
-Variable Attention
-        │
-        ▼
-Data Embedding
-        │
-        ▼
-Gradient Refiner
-        │
-        ▼
-Series Decomposition
-        │
-        ├──────────────────────┐
-        │                      │
-        ▼                      ▼
-   Fluctuation              Trend
-      Branch                 Branch
-        │                      │
-        ▼                      ▼
-      Mamba              Linear Projection
-        │                      │
-        ▼                      ▼
-Dilated CNN Refiner            │
-        │                      │
-        └──────────┬───────────┘
-                   ▼
-             Branch Fusion
-                   │
-                   ▼
-              Prediction
-                   │
-                   ▼
-          RevIN De-normalization
-                   │
-                   ▼
-             PV Forecast
+```mermaid
+flowchart TD
+    A[Input PV Time Series] --> B[RevIN Normalization]
+    B --> C[Variable Attention]
+    C --> D[Data Embedding]
+    D --> E[Gradient Refiner]
+    E --> F[Series Decomposition]
+
+    F --> G[Fluctuation Branch]
+    F --> H[Trend Branch]
+
+    G --> I[Mamba]
+    I --> J[Dilated Inception Refiner]
+    J --> K[Fluctuation Prediction]
+
+    H --> L[Trend Projection]
+    L --> M[Trend Prediction]
+
+    K --> N[Branch Fusion]
+    M --> N
+
+    N --> O[Output Projection]
+    O --> P[RevIN De-normalization]
+    P --> Q[PV Forecast]
 
 # Model Configuration
 
