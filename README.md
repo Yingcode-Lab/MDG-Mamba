@@ -62,7 +62,7 @@ Fluctuation Prediction ────────┐  |
                                   |
                                   ▼
                              PV Forecast
-
+```
 # Model Configuration
 
 The implementation is compatible with the configuration-based architecture commonly used in long-term time-series forecasting repositories.
